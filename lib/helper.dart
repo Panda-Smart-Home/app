@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'models/device.dart';
 
 String deviceTypeToString(DeviceTypes type) {
@@ -22,4 +23,11 @@ DeviceTypes stringToDeviceType(String type) {
 
 String getApiUrl() {
   return 'http://192.168.100.104:8000/';
+}
+
+FloatingActionButton getAddSceneButton() {
+  return FloatingActionButton(
+    onPressed: (){},
+    child: Icon(Icons.add),
+  );
 }

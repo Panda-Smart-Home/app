@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'pages/job_list.dart';
-import 'pages/action_list.dart';
-import 'pages/scene_list.dart';
-import 'pages/device_list.dart';
+import 'package:app/helper.dart';
+import 'package:app/home/lists/job_list.dart';
+import 'package:app/home/lists/action_list.dart';
+import 'package:app/home/lists/scene_list.dart';
+import 'package:app/home/lists/device_list.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -36,6 +37,8 @@ class _HomePageState extends State<HomePage> {
 
   var _currentIndex = 0;
 
+  FloatingActionButton _floatingActionButton;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,9 +53,16 @@ class _HomePageState extends State<HomePage> {
         onTap: (int index) {
           setState(() {
             _currentIndex = index;
+            switch (index) {
+              case 0: _floatingActionButton = null;return;
+              case 1: _floatingActionButton = null;return;
+              case 2: _floatingActionButton = getAddSceneButton();return;
+              case 3: _floatingActionButton = null;return;
+            }
           });
         },
       ),
+      floatingActionButton: _floatingActionButton
     );
   }
 }
