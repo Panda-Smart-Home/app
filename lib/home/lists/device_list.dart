@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:app/helper.dart';
 import 'package:app/models/device.dart';
 import 'package:app/home/widgets/device_card.dart';
@@ -20,13 +19,10 @@ class _DeviceListState extends State<DeviceList> {
   }
 
   Future<Null> _getDevices() async {
-    Response response = await Dio().get(getApiUrl() + 'devices');
-    if (response.statusCode != 200) {
-      return;
-    }
-
+    var data = await getDevices();
     List<DeviceCard> cards = [];
-    for (var device in response.data) {
+
+    for (var device in data) {
       cards.add(DeviceCard(device: Device.fromMap(device)));
     }
 

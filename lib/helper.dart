@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'models/device.dart';
+import 'pages/scene_add.dart';
 
 String deviceTypeToString(DeviceTypes type) {
   switch (type) {
@@ -22,12 +24,85 @@ DeviceTypes stringToDeviceType(String type) {
 }
 
 String getApiUrl() {
-  return 'http://192.168.100.104:8000/';
+  return 'http://192.168.100.103:8000/';
 }
 
-FloatingActionButton getAddSceneButton() {
+Future<dynamic> getDevices() async {
+  Response response = await Dio().get(getApiUrl() + 'devices');
+  if (response.statusCode != 200) {
+    return [];
+  }
+
+  return response.data;
+}
+
+List<DropdownMenuItem<String>> getDevicePropertiesMenuItemList(device)
+{
+  List<DropdownMenuItem<String>> list;
+
+  switch (device['type']) {
+    case 'power':
+      list = [
+        DropdownMenuItem(value: 'power', child: Text('开关'))
+      ];
+      break;
+    case 'sensirion':
+      list = [
+        DropdownMenuItem(value: 'temperature', child: Text('温度')),
+        DropdownMenuItem(value: 'humidity', child: Text('湿度')),
+      ];
+      break;
+  }
+
+  return list;
+}
+
+PropertyTypes getPropertyTypeByProperty(property)
+{
+  if (property == null) {
+    return PropertyTypes.unknown;
+  }
+
+  switch (property) {
+    case 'power': return PropertyTypes.bool;
+    case 'temperature': return PropertyTypes.num;
+    case 'humidity': return PropertyTypes.num;
+  }
+
+  return PropertyTypes.unknown;
+}
+
+List<DropdownMenuItem> getOperatorMenuItemListByType(PropertyTypes type)
+{
+  List<DropdownMenuItem> list;
+
+  switch (type) {
+    case PropertyTypes.bool:
+      list = [
+        DropdownMenuItem(value: true, child: Text('等于')),
+        DropdownMenuItem(value: false, child: Text('不等于'))
+      ];
+      break;
+    case PropertyTypes.num:
+      list = [
+        DropdownMenuItem(value: -2, child: Text('<=')),
+        DropdownMenuItem(value: -1, child: Text('<')),
+        DropdownMenuItem(value: 0, child: Text('=')),
+        DropdownMenuItem(value: 1, child: Text('>')),
+        DropdownMenuItem(value: 2, child: Text('>=')),
+      ];
+      break;
+    case PropertyTypes.unknown: break;
+  }
+
+  return list;
+}
+
+FloatingActionButton getAddSceneButton(context) {
   return FloatingActionButton(
-    onPressed: (){},
+    onPressed: (){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SceneAdd()));
+    },
     child: Icon(Icons.add),
   );
 }

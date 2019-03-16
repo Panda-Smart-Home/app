@@ -3,7 +3,13 @@ import 'package:app/helper.dart';
 
 enum DeviceTypes {
   power,
-  sensirion
+  sensirion,
+}
+
+enum PropertyTypes {
+  num,
+  bool,
+  unknown,
 }
 
 class Device

@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
             switch (index) {
               case 0: _floatingActionButton = null;return;
               case 1: _floatingActionButton = null;return;
-              case 2: _floatingActionButton = getAddSceneButton();return;
+              case 2: _floatingActionButton = getAddSceneButton(context);return;
               case 3: _floatingActionButton = null;return;
             }
           });
