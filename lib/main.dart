@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:app/helper.dart';
 import 'home/home.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  getDevices();
+  runApp(MyApp());
+}
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

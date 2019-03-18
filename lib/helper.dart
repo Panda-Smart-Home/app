@@ -24,7 +24,7 @@ DeviceTypes stringToDeviceType(String type) {
 }
 
 String getApiUrl() {
-  return 'http://192.168.100.103:8000/';
+  return 'http://192.168.100.100:8000/';
 }
 
 Future<dynamic> getDevices() async {
@@ -32,7 +32,7 @@ Future<dynamic> getDevices() async {
   if (response.statusCode != 200) {
     return [];
   }
-
+  Global.set('devices', response.data);
   return response.data;
 }
 
@@ -104,5 +104,44 @@ FloatingActionButton getAddSceneButton(context) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => SceneAdd()));
     },
     child: Icon(Icons.add),
+  );
+}
+
+
+class Global
+{
+  static final Map<String, dynamic> _variables = {};
+
+  static dynamic get(String key) {
+    if (_variables.containsKey(key)) {
+      return _variables[key];
+    } else {
+      return null;
+    }
+  }
+
+  static void set(String key, value) {
+    _variables[key] = value;
+  }
+}
+
+Future<void> dialog(context, title, text) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(text),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('确认'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
   );
 }

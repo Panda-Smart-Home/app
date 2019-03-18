@@ -1,50 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:app/helper.dart';
+import 'package:app/models/rules.dart';
 import 'package:app/pages/widgets/scene_rule.dart';
 
 class SceneRules extends StatefulWidget {
   SceneRules({Key key, this.rules}) : super(key: key);
 
-  final List rules;
+  final Rules rules;
 
   @override
-  _SceneRulesState createState() => _SceneRulesState(rules);
+  _SceneRulesState createState() => _SceneRulesState();
 }
 
 class _SceneRulesState extends State<SceneRules> {
 
-  _SceneRulesState(this.rules) : super();
+  _SceneRulesState() : super();
 
   List rules = [];
 
   List<Widget> ruleWidgets = [];
 
-  var devices = [];
-
   @override
   void initState() {
+    rules = widget.rules.list;
     _buildRules();
-    getDevices().then((val) {devices = val;});
     super.initState();
   }
 
   void _addRule() {
-    var rule = {
-      'id': null,
-      'type': null,
-      'property': null,
-      'operator': null,
-      'value': null,
-    };
-    rules.add(rule);
-    ruleWidgets.add(_buildRule(rule));
-    setState(() {
-      ruleWidgets = ruleWidgets;
-    });
+    rules.add(null);
+    ruleWidgets.add(_buildRule(null));
+    setState(() {});
   }
 
   Widget _buildRule(rule) {
-    return SceneRule(devices: devices, rule: rule);
+    var i = rules.indexOf(rule);
+    return SceneRule(
+      rule: rule,
+      onChange: (newRule){rules[i] = newRule;widget.rules.list = rules;},
+    );
   }
 
   void _buildRules() {
@@ -58,9 +51,7 @@ class _SceneRulesState extends State<SceneRules> {
     for(var rule in rules) {
       ruleWidgets.add(_buildRule(rule));
     }
-    setState(() {
-      ruleWidgets = ruleWidgets;
-    });
+    setState(() {});
   }
 
   @override

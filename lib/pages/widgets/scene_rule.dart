@@ -3,11 +3,11 @@ import 'package:app/helper.dart';
 import 'package:app/models/device.dart';
 
 class SceneRule extends StatefulWidget {
-  SceneRule({Key key, this.devices, this.rule}) : super(key: key);
-
-  final devices;
+  SceneRule({Key key, this.rule, this.onChange}) : super(key: key);
 
   final rule;
+
+  final onChange;
 
   @override
   _SceneRuleState createState() => _SceneRuleState();
@@ -31,11 +31,34 @@ class _SceneRuleState extends State<SceneRule> {
 
   var currentDevice;
 
+  bool close = false;
+
+  var devices = Global.get('devices');
+
   @override
   void initState() {
-    for (var device in widget.devices) {
-      deviceItems.add(DropdownMenuItem(child: Text(device['name']), value: device['id']));
+    if (devices == null) {
+      close = true;
+      getDevices().then((val) {
+        devices = val;
+        close = false;
+        for (var device in devices) {
+          if (widget.rule != null && widget.rule['id'] == device['id']) {
+            currentDevice = device;
+          }
+          deviceItems.add(DropdownMenuItem(child: Text(device['name']), value: device['id']));
+        }
+        setState(() {});
+      });
+    } else {
+      for (var device in devices) {
+        if (widget.rule != null && widget.rule['id'] == device['id']) {
+          currentDevice = device;
+        }
+        deviceItems.add(DropdownMenuItem(child: Text(device['name']), value: device['id']));
+      }
     }
+
     super.initState();
   }
 
@@ -53,76 +76,145 @@ class _SceneRuleState extends State<SceneRule> {
             hint: Text('值'),
             onChanged: (currentValue) {
               value = currentValue;
+              widget.onChange({
+                'id': selectDeviceId,
+                'property': selectDeviceProperty,
+                'operator': selectOperator,
+                'value': value
+              });
               setState(() {});
             }
         );
       case PropertyTypes.num:
         return Container(
           width: 160,
-          child: TextField(controller: valueField, onChanged: (text){value = text;})
+          child: TextField(
+            controller: valueField,
+            onChanged: (text) {
+              value = text;
+              widget.onChange({
+                'id': selectDeviceId,
+                'property': selectDeviceProperty,
+                'operator': selectOperator,
+                'value': value
+              });
+            }
+          )
         );
       case PropertyTypes.unknown:
         return Text('');
     }
     return Text('');
   }
+
+  void _deviceChange(id) {
+    for (var device in devices) {
+      if (device['id'] == id) {
+        selectDeviceId = id;
+        currentDevice = device;
+        propertyItems = getDevicePropertiesMenuItemList(device);
+        selectDeviceProperty = null;
+        selectOperator = null;
+        value = null;
+        setState(() {});
+        break;
+      }
+    }
+  }
+
+  void _propertyChange(property) {
+    selectDeviceProperty = property;
+    operatorItems = getOperatorMenuItemListByType(getPropertyTypeByProperty(property));
+    selectOperator = null;
+    value = null;
+    setState(() {});
+  }
+
+  void _operatorChange(operator) {
+    selectOperator = operator;
+    setState(() {});
+  }
   
   @override
   Widget build(BuildContext context) {
-    return Column( children: [
+    if (close) {
+      return Text('');
+    }
+
+    if (widget.rule != null) {
+      selectDeviceId = widget.rule['id'];
+      selectDeviceProperty = widget.rule['property'];
+      selectOperator = widget.rule['operator'];
+      value = widget.rule['value'];
+      return Column(children: [
         Row(
-        children: <Widget>[
-          Text('当'),
-          DropdownButton(
-            value: selectDeviceId,
-            items: deviceItems,
-            hint: Text('设备'),
-            onChanged: (id) {
-              for (var device in widget.devices) {
-                if (device['id'] == id) {
-                  selectDeviceId = id;
-                  currentDevice = device;
-                  propertyItems = getDevicePropertiesMenuItemList(device);
-                  selectDeviceProperty = null;
-                  selectOperator = null;
-                  value = null;
-                  setState(() {});
-                  break;
-                }
-              }
-            }
-          ),
-          Text('的'),
-          DropdownButton(
-              value: selectDeviceProperty,
-              items: propertyItems,
-              hint: Text('属性'),
-              onChanged: (property) {
-                selectDeviceProperty = property;
-                operatorItems = getOperatorMenuItemListByType(getPropertyTypeByProperty(property));
-                selectOperator = null;
-                value = null;
-                setState(() {});
-              }
-          ),
-        ],
-      ),
-      Row(
-        children: [
-          Text('值'),
-          DropdownButton(
-              value: selectOperator,
-              items: operatorItems,
-              hint: Text('请选择操作符'),
-              onChanged: (operator) {
-                selectOperator = operator;
-                setState(() {});
-              }
-          ),
-          _getValueWidget(getPropertyTypeByProperty(selectDeviceProperty))
-        ],
-      )
-    ]
+          children: <Widget>[
+            Text('当'),
+            DropdownButton(
+                value: selectDeviceId,
+                items: deviceItems,
+                hint: Text('设备'),
+                onChanged: _deviceChange
+            ),
+            Text('的'),
+            DropdownButton(
+                value: selectDeviceProperty,
+                items: getDevicePropertiesMenuItemList(currentDevice),
+                hint: Text('属性'),
+                onChanged: _propertyChange
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Text('值'),
+            DropdownButton(
+                value: selectOperator,
+                items: getOperatorMenuItemListByType(getPropertyTypeByProperty(selectDeviceProperty)),
+                hint: Text('请选择操作符'),
+                onChanged: _operatorChange
+            ),
+            _getValueWidget(getPropertyTypeByProperty(selectDeviceProperty)),
+            IconButton(icon: Icon(Icons.close), onPressed: (){widget.onChange(null); close = true; setState(() {});})
+          ],
+        )
+      ]
+      );
+    }
+
+    return Column(children: [
+          Row(
+          children: <Widget>[
+            Text('当'),
+            DropdownButton(
+              value: selectDeviceId,
+              items: deviceItems,
+              hint: Text('设备'),
+              onChanged: _deviceChange
+            ),
+            Text('的'),
+            DropdownButton(
+                value: selectDeviceProperty,
+                items: propertyItems,
+                hint: Text('属性'),
+                onChanged: _propertyChange
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Text('值'),
+            DropdownButton(
+                value: selectOperator,
+                items: operatorItems,
+                hint: Text('请选择操作符'),
+                onChanged: _operatorChange
+            ),
+            _getValueWidget(getPropertyTypeByProperty(selectDeviceProperty)),
+            IconButton(icon: Icon(Icons.close), onPressed: (){widget.onChange(null); close = true; setState(() {});})
+          ],
+        )
+      ]
     );
   }
 }
