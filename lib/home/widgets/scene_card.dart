@@ -20,6 +20,31 @@ class _SceneCardState extends State<SceneCard> {
     super.initState();
   }
 
+  Widget _getRelatedDevices() {
+
+    String text = '关联设备：';
+
+    int i = 0;
+    for (var name in widget.scene.devices) {
+      text = text + ' ' + name;
+      i++;
+      if (i >= 3) {
+        text = text + '...';
+        break;
+      }
+    }
+
+    return Expanded(
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 14,
+        ),
+      )
+    );
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,19 +56,28 @@ class _SceneCardState extends State<SceneCard> {
         child: Card(
           child: Padding(
               padding: EdgeInsets.all(12),
-              child: Row(
+              child: Column(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(right: 6),
-                    child: icon,
+                  Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 6),
+                        child: icon,
+                      ),
+                      Text(
+                        widget.scene.name,
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    widget.scene.name,
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
+                  Row(
+                    children: <Widget>[
+                      _getRelatedDevices()
+                    ]
+                  )
                 ],
               )
           ),

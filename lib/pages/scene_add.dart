@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:app/helper.dart';
-import 'package:app/models/rules.dart';
+import 'package:app/models/magic.dart';
 import 'package:app/pages/widgets/scene_rules.dart';
 
 
@@ -9,19 +9,18 @@ class SceneAdd extends StatelessWidget {
 
   SceneAdd({Key key}) : super(key: key);
 
-  final nameField = TextEditingController(text: '123');
+  final rulesWidget = SceneRules(rules: Magic([]));
 
-  final rulesWidget = SceneRules(rules: Rules([]));
-
-  Future<bool> submit(context) async {
+  Future<bool> submit() async {
     List rules = [];
-    for (var rule in rulesWidget.rules.list) {
+    for (var rule in rulesWidget.rules.content) {
       if (rule != null && rule['value'] != null) {
         rules.add(rule);
       }
     }
+    String name = Global.get('new_scene_name');
+    print(name);
     print(rules);
-    String name = nameField.text;
     if (name == null || name == '' || rules.isEmpty) {
       return false;
     }
@@ -46,8 +45,7 @@ class SceneAdd extends StatelessWidget {
         title: Text('新建场景'),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.check), onPressed: () {
-            // TODO
-            submit(context).then((ok) {
+            submit().then((ok) {
               if (ok) {
                 Navigator.of(context).pop();
               } else {
@@ -69,7 +67,7 @@ class SceneAdd extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Text('场景名称：'),
-                      Container(width: 240, child: TextField(maxLength: 20, controller: nameField))
+                      Container(width: 240, child: TextField(maxLength: 20, onChanged: (str) {Global.set('new_scene_name', str);}))
                     ],
                   ),
                 ],

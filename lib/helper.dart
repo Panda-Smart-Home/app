@@ -36,6 +36,15 @@ Future<dynamic> getDevices() async {
   return response.data;
 }
 
+Future<dynamic> getScenes() async {
+  Response response = await Dio().get(getApiUrl() + 'scenes');
+  if (response.statusCode != 200) {
+    return [];
+  }
+  Global.set('scenes', response.data);
+  return response.data;
+}
+
 List<DropdownMenuItem<String>> getDevicePropertiesMenuItemList(device)
 {
   List<DropdownMenuItem<String>> list;

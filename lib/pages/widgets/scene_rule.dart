@@ -120,6 +120,12 @@ class _SceneRuleState extends State<SceneRule> {
         break;
       }
     }
+    widget.onChange({
+      'id': selectDeviceId,
+      'property': selectDeviceProperty,
+      'operator': selectOperator,
+      'value': value
+    });
   }
 
   void _propertyChange(property) {
@@ -128,11 +134,23 @@ class _SceneRuleState extends State<SceneRule> {
     selectOperator = null;
     value = null;
     setState(() {});
+    widget.onChange({
+      'id': selectDeviceId,
+      'property': selectDeviceProperty,
+      'operator': selectOperator,
+      'value': value
+    });
   }
 
   void _operatorChange(operator) {
     selectOperator = operator;
     setState(() {});
+    widget.onChange({
+      'id': selectDeviceId,
+      'property': selectDeviceProperty,
+      'operator': selectOperator,
+      'value': value
+    });
   }
   
   @override

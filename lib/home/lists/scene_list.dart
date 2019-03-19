@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:app/helper.dart';
 import 'package:app/models/scene.dart';
 import 'package:app/home/widgets/scene_card.dart';
@@ -20,13 +19,10 @@ class _SceneListState extends State<SceneList> {
   }
 
   Future<Null> _getScenes() async {
-    Response response = await Dio().get(getApiUrl() + 'scenes');
-    if (response.statusCode != 200) {
-      return;
-    }
-
+    var data = await getScenes();
     List<SceneCard> cards = [];
-    for (var scene in response.data) {
+
+    for (var scene in data) {
       cards.add(SceneCard(scene: Scene.fromMap(scene)));
     }
 
