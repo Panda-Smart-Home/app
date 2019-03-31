@@ -64,7 +64,6 @@ class _SceneRuleState extends State<SceneRule> {
 
 
   Widget _getValueWidget(PropertyTypes type) {
-    var valueField = TextEditingController(text: '');
     switch (type) {
       case PropertyTypes.bool:
         return DropdownButton(
@@ -86,8 +85,9 @@ class _SceneRuleState extends State<SceneRule> {
             }
         );
       case PropertyTypes.num:
+        var valueField = TextEditingController(text: value);
         return Container(
-          width: 160,
+          width: 140,
           child: TextField(
             controller: valueField,
             onChanged: (text) {
@@ -192,8 +192,10 @@ class _SceneRuleState extends State<SceneRule> {
                 hint: Text('请选择操作符'),
                 onChanged: _operatorChange
             ),
-            _getValueWidget(getPropertyTypeByProperty(selectDeviceProperty)),
-            IconButton(icon: Icon(Icons.close), onPressed: (){widget.onChange(null); close = true; setState(() {});})
+            Expanded(
+              child: _getValueWidget(getPropertyTypeByProperty(selectDeviceProperty)),
+            ),
+            IconButton(icon: Icon(Icons.close), onPressed: (){widget.onChange(null); close = true; setState(() {});}),
           ],
         )
       ]

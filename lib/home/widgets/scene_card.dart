@@ -51,7 +51,7 @@ class _SceneCardState extends State<SceneCard> {
       padding: EdgeInsets.only(left: 12, right: 12, top: 12),
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SceneInfo(scene: widget.scene)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SceneEdit(scene: widget.scene)));
         },
         child: Card(
           child: Padding(

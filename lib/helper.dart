@@ -24,7 +24,7 @@ DeviceTypes stringToDeviceType(String type) {
 }
 
 String getApiUrl() {
-  return 'http://192.168.100.100:8000/';
+  return 'http://192.168.1.101:8000/';
 }
 
 Future<dynamic> getDevices() async {
@@ -147,6 +147,36 @@ Future<void> dialog(context, title, text) async {
             child: Text('确认'),
             onPressed: () {
               Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> askDialog(context, title, text, [fn]) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(text),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('取消'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          FlatButton(
+            child: Text('确认'),
+            onPressed: () {
+              Navigator.of(context).pop();
+              if (fn != null) {
+                fn();
+              }
             },
           ),
         ],

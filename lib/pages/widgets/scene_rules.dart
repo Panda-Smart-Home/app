@@ -7,6 +7,10 @@ class SceneRules extends StatefulWidget {
 
   final Magic rules;
 
+  void setRules(newRules) {
+    rules.content = newRules;
+  }
+
   @override
   _SceneRulesState createState() => _SceneRulesState();
 }

@@ -12,7 +12,7 @@ class Scene
 
   Future<bool> refresh() async {
     Response response = await Dio().get(
-        getApiUrl() + 'scene/' + this.id.toString()
+        getApiUrl() + 'scenes/' + this.id.toString()
     );
     if (response.statusCode != 200) {
       return false;
@@ -21,6 +21,16 @@ class Scene
     this.name = response.data['name'];
     this.requirement = response.data['requirement'];
     this.devices = response.data['devices'];
+    return true;
+  }
+
+  Future<bool> delete() async {
+    Response response = await Dio().delete(
+        getApiUrl() + 'scenes/' + this.id.toString()
+    );
+    if (response.statusCode != 204) {
+      return false;
+    }
     return true;
   }
 
