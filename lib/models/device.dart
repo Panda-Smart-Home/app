@@ -4,11 +4,13 @@ import 'package:app/helper.dart';
 enum DeviceTypes {
   power,
   sensirion,
+  server,
 }
 
 enum PropertyTypes {
   num,
   bool,
+  time,
   unknown,
 }
 
@@ -71,6 +73,9 @@ class Device
         break;
       case 'sensirion':
         type = DeviceTypes.sensirion;
+        break;
+      case 'server':
+        type = DeviceTypes.server;
         break;
     }
   }

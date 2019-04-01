@@ -9,6 +9,8 @@ String deviceTypeToString(DeviceTypes type) {
       return '智能插座';
     case DeviceTypes.sensirion:
       return '温湿度传感器';
+    case DeviceTypes.server:
+      return '智能家居中心';
   }
   return '未知';
 }
@@ -19,6 +21,8 @@ DeviceTypes stringToDeviceType(String type) {
       return DeviceTypes.power;
     case 'sensirion':
       return DeviceTypes.sensirion;
+    case 'server':
+      return DeviceTypes.server;
   }
   return DeviceTypes.power;
 }
@@ -61,6 +65,11 @@ List<DropdownMenuItem<String>> getDevicePropertiesMenuItemList(device)
         DropdownMenuItem(value: 'humidity', child: Text('湿度')),
       ];
       break;
+    case 'server':
+      list = [
+        DropdownMenuItem(value: 'time', child: Text('时间')),
+      ];
+      break;
   }
 
   return list;
@@ -76,6 +85,7 @@ PropertyTypes getPropertyTypeByProperty(property)
     case 'power': return PropertyTypes.bool;
     case 'temperature': return PropertyTypes.num;
     case 'humidity': return PropertyTypes.num;
+    case 'time': return PropertyTypes.time;
   }
 
   return PropertyTypes.unknown;
@@ -101,6 +111,22 @@ List<DropdownMenuItem> getOperatorMenuItemListByType(PropertyTypes type)
         DropdownMenuItem(value: 2, child: Text('>=')),
       ];
       break;
+    case PropertyTypes.time:
+      list = [
+        DropdownMenuItem(value: 0, child: Text('今天')),
+        DropdownMenuItem(value: 1, child: Text('明天')),
+        DropdownMenuItem(value: 2, child: Text('后天')),
+        DropdownMenuItem(value: 3, child: Text('工作日')),
+        DropdownMenuItem(value: 4, child: Text('每天')),
+        DropdownMenuItem(value: -1, child: Text('每周一')),
+        DropdownMenuItem(value: -2, child: Text('每周二')),
+        DropdownMenuItem(value: -3, child: Text('每周三')),
+        DropdownMenuItem(value: -4, child: Text('每周四')),
+        DropdownMenuItem(value: -5, child: Text('每周五')),
+        DropdownMenuItem(value: -6, child: Text('每周六')),
+        DropdownMenuItem(value: -7, child: Text('每周日')),
+      ];
+      break;
     case PropertyTypes.unknown: break;
   }
 
@@ -116,6 +142,13 @@ FloatingActionButton getAddSceneButton(context) {
   );
 }
 
+void selectDate(BuildContext context, fn) {
+  var selectedTime = showTimePicker(
+    initialTime: TimeOfDay.now(),
+    context: context,
+  );
+  selectedTime.then(fn);
+}
 
 class Global
 {

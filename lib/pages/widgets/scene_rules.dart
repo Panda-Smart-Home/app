@@ -40,7 +40,7 @@ class _SceneRulesState extends State<SceneRules> {
     var i = rules.indexOf(rule);
     return SceneRule(
       rule: rule,
-      onChange: (newRule){rules[i] = newRule;widget.rules.content = rules;},
+      onChange: (newRule){rules[i] = newRule;widget.rules.content = rules;print(rules);},
     );
   }
 

@@ -101,6 +101,22 @@ class _SceneRuleState extends State<SceneRule> {
             }
           )
         );
+      case PropertyTypes.time:
+        return FlatButton(
+          child: value == null ? Text('选择时间') : Text(value.toString()),
+          onPressed: () {
+            selectDate(context, (TimeOfDay time){
+              value = time.hour.toString() + ':' + time.minute.toString();
+              widget.onChange({
+                'id': selectDeviceId,
+                'property': selectDeviceProperty,
+                'operator': selectOperator,
+                'value': value
+              });
+              setState(() {});
+            });
+          }
+        );
       case PropertyTypes.unknown:
         return Text('');
     }

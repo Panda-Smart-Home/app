@@ -20,6 +20,7 @@ class _DeviceCardState extends State<DeviceCard> {
     switch (widget.device.type) {
       case DeviceTypes.power: icon = Icon(Icons.power_settings_new);break;
       case DeviceTypes.sensirion: icon = Icon(Icons.theaters);break;
+      case DeviceTypes.server: icon = Icon(Icons.computer);break;
     }
     super.initState();
   }

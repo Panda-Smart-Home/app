@@ -3,6 +3,7 @@ import 'package:app/helper.dart';
 import 'package:app/models/device.dart';
 import 'package:app/pages/widgets/power_status.dart';
 import 'package:app/pages/widgets/power_action.dart';
+import 'package:app/pages/widgets/server_status.dart';
 import 'package:app/pages/widgets/sensirion_status.dart';
 
 class DeviceInfo extends StatelessWidget {
@@ -17,6 +18,8 @@ class DeviceInfo extends StatelessWidget {
         return PowerStatus(device: device, isControl: false);
       case DeviceTypes.sensirion:
         return SensirionStatus(device: device);
+      case DeviceTypes.server:
+        return ServerStatus(device: device);
     }
     return Text('no match');
   }
@@ -26,7 +29,8 @@ class DeviceInfo extends StatelessWidget {
       case DeviceTypes.power:
         return PowerAction(device: device);
       case DeviceTypes.sensirion:
-        // TODO
+        return Text('');
+      case DeviceTypes.server:
         return Text('');
     }
     return Text('no match');
