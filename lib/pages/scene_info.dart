@@ -6,9 +6,9 @@ import 'package:app/models/scene.dart';
 import 'package:app/pages/widgets/scene_rules.dart';
 
 
-class SceneEdit extends StatelessWidget {
+class SceneInfo extends StatelessWidget {
 
-  SceneEdit({Key key, this.scene}) : super(key: key) {
+  SceneInfo({Key key, this.scene}) : super(key: key) {
     Global.set('edit_scene_name', scene.name);
     List rules = [];
     for (var rule in scene.requirement) {

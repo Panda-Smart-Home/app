@@ -28,7 +28,7 @@ DeviceTypes stringToDeviceType(String type) {
 }
 
 String getApiUrl() {
-  return 'http://192.168.1.101:8000/';
+  return 'http://192.168.1.163:8000/';
 }
 
 Future<dynamic> getDevices() async {
@@ -46,6 +46,15 @@ Future<dynamic> getScenes() async {
     return [];
   }
   Global.set('scenes', response.data);
+  return response.data;
+}
+
+Future<dynamic> getActions() async {
+  Response response = await Dio().get(getApiUrl() + 'actions');
+  if (response.statusCode != 200) {
+    return [];
+  }
+  Global.set('actions', response.data);
   return response.data;
 }
 
@@ -137,6 +146,16 @@ FloatingActionButton getAddSceneButton(context) {
   return FloatingActionButton(
     onPressed: (){
       Navigator.push(context, MaterialPageRoute(builder: (context) => SceneAdd()));
+    },
+    child: Icon(Icons.add),
+  );
+}
+
+FloatingActionButton getAddActionButton(context) {
+  return FloatingActionButton(
+    onPressed: (){
+      // TODO
+//      Navigator.push(context, MaterialPageRoute(builder: (context) => SceneAdd()));
     },
     child: Icon(Icons.add),
   );

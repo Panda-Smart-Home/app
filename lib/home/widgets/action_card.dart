@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:app/models/scene.dart';
-import 'package:app/pages/scene_info.dart';
+import 'package:app/models/action.dart';
 
-class SceneCard extends StatefulWidget {
-  SceneCard({Key key, this.scene}) : super(key: key);
+class ActionCard extends StatefulWidget {
+  ActionCard({Key key, this.action}) : super(key: key);
 
-  final Scene scene;
+  final Action action;
 
   @override
-  _SceneCardState createState() => _SceneCardState();
+  _ActionCardState createState() => _ActionCardState();
 }
 
-class _SceneCardState extends State<SceneCard> {
+class _ActionCardState extends State<ActionCard> {
 
-  Icon icon = Icon(Icons.widgets);
+  Icon icon = Icon(Icons.build);
 
   @override
   void initState() {
@@ -25,7 +24,7 @@ class _SceneCardState extends State<SceneCard> {
     String text = '关联设备：';
 
     int i = 0;
-    for (var name in widget.scene.devices) {
+    for (var name in widget.action.devices) {
       text = text + ' ' + name;
       i++;
       if (i >= 3) {
@@ -35,12 +34,12 @@ class _SceneCardState extends State<SceneCard> {
     }
 
     return Expanded(
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 14,
-        ),
-      )
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 14,
+          ),
+        )
     );
 
   }
@@ -51,7 +50,8 @@ class _SceneCardState extends State<SceneCard> {
       padding: EdgeInsets.only(left: 12, right: 12, top: 12),
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SceneInfo(scene: widget.scene)));
+          // TODO
+//          Navigator.push(context, MaterialPageRoute(builder: (context) => SceneInfo(scene: widget.action)));
         },
         child: Card(
           child: Padding(
@@ -65,7 +65,7 @@ class _SceneCardState extends State<SceneCard> {
                         child: icon,
                       ),
                       Text(
-                        widget.scene.name,
+                        widget.action.name,
                         style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold
@@ -74,9 +74,9 @@ class _SceneCardState extends State<SceneCard> {
                     ],
                   ),
                   Row(
-                    children: <Widget>[
-                      _getRelatedDevices()
-                    ]
+                      children: <Widget>[
+                        _getRelatedDevices()
+                      ]
                   )
                 ],
               )

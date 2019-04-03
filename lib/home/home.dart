@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
             _currentIndex = index;
             switch (index) {
               case 0: _floatingActionButton = null;return;
-              case 1: _floatingActionButton = null;return;
+              case 1: _floatingActionButton = getAddActionButton(context);return;
               case 2: _floatingActionButton = getAddSceneButton(context);return;
               case 3: _floatingActionButton = null;return;
             }
