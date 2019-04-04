@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/models/action.dart';
+import 'package:app/pages/action_info.dart';
 
 class ActionCard extends StatefulWidget {
   ActionCard({Key key, this.action}) : super(key: key);
@@ -50,8 +51,7 @@ class _ActionCardState extends State<ActionCard> {
       padding: EdgeInsets.only(left: 12, right: 12, top: 12),
       child: InkWell(
         onTap: () {
-          // TODO
-//          Navigator.push(context, MaterialPageRoute(builder: (context) => SceneInfo(scene: widget.action)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ActionInfo(action: widget.action)));
         },
         child: Card(
           child: Padding(

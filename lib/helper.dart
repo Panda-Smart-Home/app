@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'models/device.dart';
 import 'pages/scene_add.dart';
+import 'pages/action_add.dart';
 
 String deviceTypeToString(DeviceTypes type) {
   switch (type) {
@@ -154,8 +155,7 @@ FloatingActionButton getAddSceneButton(context) {
 FloatingActionButton getAddActionButton(context) {
   return FloatingActionButton(
     onPressed: (){
-      // TODO
-//      Navigator.push(context, MaterialPageRoute(builder: (context) => SceneAdd()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ActionAdd()));
     },
     child: Icon(Icons.add),
   );
