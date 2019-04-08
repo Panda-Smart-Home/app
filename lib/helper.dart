@@ -29,7 +29,7 @@ DeviceTypes stringToDeviceType(String type) {
 }
 
 String getApiUrl() {
-  return 'http://192.168.1.163:8000/';
+  return 'http://192.168.1.101:8000/';
 }
 
 Future<dynamic> getDevices() async {
@@ -56,6 +56,15 @@ Future<dynamic> getActions() async {
     return [];
   }
   Global.set('actions', response.data);
+  return response.data;
+}
+
+Future<dynamic> getJobs() async {
+  Response response = await Dio().get(getApiUrl() + 'jobs');
+  if (response.statusCode != 200) {
+    return [];
+  }
+  Global.set('jobs', response.data);
   return response.data;
 }
 
@@ -114,20 +123,17 @@ List<DropdownMenuItem> getOperatorMenuItemListByType(PropertyTypes type)
       break;
     case PropertyTypes.num:
       list = [
-        DropdownMenuItem(value: -2, child: Text('<=')),
-        DropdownMenuItem(value: -1, child: Text('<')),
+        DropdownMenuItem(value: -2, child: Text('<')),
+        DropdownMenuItem(value: -1, child: Text('<=')),
         DropdownMenuItem(value: 0, child: Text('=')),
-        DropdownMenuItem(value: 1, child: Text('>')),
-        DropdownMenuItem(value: 2, child: Text('>=')),
+        DropdownMenuItem(value: 1, child: Text('>=')),
+        DropdownMenuItem(value: 2, child: Text('>')),
       ];
       break;
     case PropertyTypes.time:
       list = [
-        DropdownMenuItem(value: 0, child: Text('今天')),
-        DropdownMenuItem(value: 1, child: Text('明天')),
-        DropdownMenuItem(value: 2, child: Text('后天')),
-        DropdownMenuItem(value: 3, child: Text('工作日')),
-        DropdownMenuItem(value: 4, child: Text('每天')),
+        DropdownMenuItem(value: 1, child: Text('每天')),
+        DropdownMenuItem(value: 0, child: Text('工作日')),
         DropdownMenuItem(value: -1, child: Text('每周一')),
         DropdownMenuItem(value: -2, child: Text('每周二')),
         DropdownMenuItem(value: -3, child: Text('每周三')),
@@ -143,10 +149,11 @@ List<DropdownMenuItem> getOperatorMenuItemListByType(PropertyTypes type)
   return list;
 }
 
-FloatingActionButton getAddSceneButton(context) {
+FloatingActionButton getAddJobButton(context) {
   return FloatingActionButton(
     onPressed: (){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SceneAdd()));
+      // TODO
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ActionAdd()));
     },
     child: Icon(Icons.add),
   );
@@ -156,6 +163,15 @@ FloatingActionButton getAddActionButton(context) {
   return FloatingActionButton(
     onPressed: (){
       Navigator.push(context, MaterialPageRoute(builder: (context) => ActionAdd()));
+    },
+    child: Icon(Icons.add),
+  );
+}
+
+FloatingActionButton getAddSceneButton(context) {
+  return FloatingActionButton(
+    onPressed: (){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SceneAdd()));
     },
     child: Icon(Icons.add),
   );

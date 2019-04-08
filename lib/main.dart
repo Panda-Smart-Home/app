@@ -4,6 +4,9 @@ import 'home/home.dart';
 
 void main() {
   getDevices();
+  getScenes();
+  getActions();
+  getJobs();
   runApp(MyApp());
 }
 
