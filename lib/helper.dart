@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'models/device.dart';
+import 'pages/job_add.dart';
 import 'pages/scene_add.dart';
 import 'pages/action_add.dart';
 
@@ -153,7 +154,7 @@ FloatingActionButton getAddJobButton(context) {
   return FloatingActionButton(
     onPressed: (){
       // TODO
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ActionAdd()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => JobAdd()));
     },
     child: Icon(Icons.add),
   );

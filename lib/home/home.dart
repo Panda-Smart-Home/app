@@ -15,24 +15,24 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   final _pages = [
+    DeviceList(),
     JobList(),
     ActionList(),
     SceneList(),
-    DeviceList(),
   ];
 
   final _titles = [
+    Text('设备列表'),
     Text('任务列表'),
     Text('行为列表'),
     Text('场景列表'),
-    Text('设备列表'),
   ];
 
   final _bottomItems = [
+    BottomNavigationBarItem(icon: Icon(Icons.devices), title: Text('设备')),
     BottomNavigationBarItem(icon: Icon(Icons.list), title: Text('任务')),
     BottomNavigationBarItem(icon: Icon(Icons.videogame_asset), title: Text('行为')),
     BottomNavigationBarItem(icon: Icon(Icons.view_compact), title: Text('场景')),
-    BottomNavigationBarItem(icon: Icon(Icons.devices), title: Text('设备')),
   ];
 
   var _currentIndex = 0;
@@ -54,10 +54,10 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             _currentIndex = index;
             switch (index) {
-              case 0: _floatingActionButton = getAddJobButton(context);return;
-              case 1: _floatingActionButton = getAddActionButton(context);return;
-              case 2: _floatingActionButton = getAddSceneButton(context);return;
-              case 3: _floatingActionButton = null;return;
+              case 0: _floatingActionButton = null;return;
+              case 1: _floatingActionButton = getAddJobButton(context);return;
+              case 2: _floatingActionButton = getAddActionButton(context);return;
+              case 3: _floatingActionButton = getAddSceneButton(context);return;
             }
           });
         },
