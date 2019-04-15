@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app/helper.dart';
 import 'home/home.dart';
 
 void main() {
-  getDevices();
-  getScenes();
-  getActions();
-  getJobs();
-  runApp(MyApp());
+  SharedPreferences.getInstance().then((SharedPreferences prefs) {
+    print(prefs.getString('host'));
+    Global.set('prefs', prefs);
+    Global.set('host', prefs.getString('host'));
+    getDevices();
+    getScenes();
+    getActions();
+    getJobs();
+    runApp(MyApp());
+  });
 }
 
 

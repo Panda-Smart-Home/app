@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:app/helper.dart';
-import 'package:app/models/job.dart';
-import 'package:app/home/widgets/job_card.dart';
 
 class JobAdd extends StatefulWidget {
   JobAdd({Key key}) : super(key: key);

@@ -39,11 +39,52 @@ class _HomePageState extends State<HomePage> {
 
   FloatingActionButton _floatingActionButton;
 
+  var _hostInputController = TextEditingController();
+
+  Future<void> setHostDialog(context) async {
+    _hostInputController.text = Global.get('host');
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('设置智能家居中心IP'),
+          content: TextField(controller: _hostInputController),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('取消'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('确认'),
+              onPressed: () {
+                Global.set('host', _hostInputController.text);
+                Global.get('prefs').setString('host', _hostInputController.text);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: _titles[_currentIndex],
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              setHostDialog(context);
+            },
+          )
+        ],
       ),
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

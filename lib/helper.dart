@@ -30,7 +30,7 @@ DeviceTypes stringToDeviceType(String type) {
 }
 
 String getApiUrl() {
-  return 'http://192.168.1.101:8000/';
+  return 'http://' + Global.get('host') + '/';
 }
 
 Future<dynamic> getDevices() async {
