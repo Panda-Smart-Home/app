@@ -22,6 +22,9 @@ class _JobListState extends State<JobList> {
     List<JobCard> cards = [];
 
     for (var job in data) {
+      if (job['scene'] == null || job['action'] == null) {
+        continue;
+      }
       cards.add(JobCard(job: Job.fromMap(job)));
     }
 

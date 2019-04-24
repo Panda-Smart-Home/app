@@ -106,7 +106,19 @@ class _SceneRuleState extends State<SceneRule> {
           child: value == null ? Text('选择时间') : Text(value.toString()),
           onPressed: () {
             selectDate(context, (TimeOfDay time){
-              value = time.hour.toString() + ':' + time.minute.toString();
+              var hour, minute;
+              if (time.minute > 9) {
+                minute = time.minute.toString();
+              } else {
+                minute = '0' + time.minute.toString();
+              }
+              if (time.hour > 9) {
+                hour = time.hour.toString();
+              } else {
+                hour = '0' + time.hour.toString();
+              }
+              value = hour + ':' + minute;
+
               widget.onChange({
                 'id': selectDeviceId,
                 'property': selectDeviceProperty,
