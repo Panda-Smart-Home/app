@@ -5,6 +5,7 @@ import 'package:app/pages/widgets/power_status.dart';
 import 'package:app/pages/widgets/power_action.dart';
 import 'package:app/pages/widgets/server_status.dart';
 import 'package:app/pages/widgets/sensirion_status.dart';
+import 'package:app/pages/widgets/light_sensor_status.dart';
 
 class DeviceInfo extends StatelessWidget {
 
@@ -18,6 +19,8 @@ class DeviceInfo extends StatelessWidget {
         return PowerStatus(device: device, isControl: false);
       case DeviceTypes.sensirion:
         return SensirionStatus(device: device);
+      case DeviceTypes.lightSensor:
+        return LightSensorStatus(device: device);
       case DeviceTypes.server:
         return ServerStatus(device: device);
     }
@@ -29,6 +32,8 @@ class DeviceInfo extends StatelessWidget {
       case DeviceTypes.power:
         return PowerAction(device: device);
       case DeviceTypes.sensirion:
+        return Text('');
+      case DeviceTypes.lightSensor:
         return Text('');
       case DeviceTypes.server:
         return Text('');

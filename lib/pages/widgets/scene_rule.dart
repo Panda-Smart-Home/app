@@ -69,8 +69,8 @@ class _SceneRuleState extends State<SceneRule> {
         return DropdownButton(
             value: value,
             items: [
-              DropdownMenuItem(value: true, child: Text('开')),
-              DropdownMenuItem(value: false, child: Text('关')),
+              DropdownMenuItem(value: true, child: Text('真')),
+              DropdownMenuItem(value: false, child: Text('假')),
             ],
             hint: Text('值'),
             onChanged: (currentValue) {

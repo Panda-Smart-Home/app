@@ -4,6 +4,7 @@ import 'package:app/helper.dart';
 enum DeviceTypes {
   power,
   sensirion,
+  lightSensor,
   server,
 }
 
@@ -74,6 +75,10 @@ class Device
       case 'sensirion':
         type = DeviceTypes.sensirion;
         break;
+      case 'lightSensor':
+        type = DeviceTypes.lightSensor;
+        break;
+      // TODO more devices extension
       case 'server':
         type = DeviceTypes.server;
         break;

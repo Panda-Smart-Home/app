@@ -11,6 +11,8 @@ String deviceTypeToString(DeviceTypes type) {
       return '智能插座';
     case DeviceTypes.sensirion:
       return '温湿度传感器';
+    case DeviceTypes.lightSensor:
+      return '光敏传感器';
     case DeviceTypes.server:
       return '智能家居中心';
   }
@@ -23,6 +25,9 @@ DeviceTypes stringToDeviceType(String type) {
       return DeviceTypes.power;
     case 'sensirion':
       return DeviceTypes.sensirion;
+    case 'lightSensor':
+      return DeviceTypes.lightSensor;
+    // TODO more devices extension
     case 'server':
       return DeviceTypes.server;
   }
@@ -85,6 +90,12 @@ List<DropdownMenuItem<String>> getDevicePropertiesMenuItemList(device)
         DropdownMenuItem(value: 'humidity', child: Text('湿度')),
       ];
       break;
+    case 'lightSensor':
+      list = [
+        DropdownMenuItem(value: 'isLight', child: Text('感光'))
+      ];
+      break;
+    // TODO more devices extension
     case 'server':
       list = [
         DropdownMenuItem(value: 'time', child: Text('时间')),
@@ -105,7 +116,9 @@ PropertyTypes getPropertyTypeByProperty(property)
     case 'power': return PropertyTypes.bool;
     case 'temperature': return PropertyTypes.num;
     case 'humidity': return PropertyTypes.num;
+    case 'isLight': return PropertyTypes.bool;
     case 'time': return PropertyTypes.time;
+    // TODO more properties extension
   }
 
   return PropertyTypes.unknown;
