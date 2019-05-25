@@ -106,6 +106,27 @@ List<DropdownMenuItem<String>> getDevicePropertiesMenuItemList(device)
   return list;
 }
 
+List<DropdownMenuItem<String>> getDeviceActionPropertiesMenuItemList(device)
+{
+  List<DropdownMenuItem<String>> list;
+
+  switch (device['type']) {
+    case 'power':
+      list = [
+        DropdownMenuItem(value: 'power', child: Text('开关'))
+      ];
+      break;
+    // TODO more devices extension
+    case 'server':
+      list = [
+        DropdownMenuItem(value: 'message', child: Text('短信通知')),
+      ];
+      break;
+  }
+
+  return list;
+}
+
 PropertyTypes getPropertyTypeByProperty(property)
 {
   if (property == null) {
@@ -118,6 +139,7 @@ PropertyTypes getPropertyTypeByProperty(property)
     case 'humidity': return PropertyTypes.num;
     case 'isLight': return PropertyTypes.bool;
     case 'time': return PropertyTypes.time;
+    case 'message': return PropertyTypes.unknown;
     // TODO more properties extension
   }
 

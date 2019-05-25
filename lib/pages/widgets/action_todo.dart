@@ -39,7 +39,7 @@ class _ActionTodoState extends State<ActionTodo> {
         devices = val;
         close = false;
         for (var device in devices) {
-          if (device['type'] != 'power') {
+          if (device['type'] != 'power' && device['type'] != 'server') {
             continue;
           }
           if (widget.todo != null && widget.todo['id'] == device['id']) {
@@ -51,7 +51,7 @@ class _ActionTodoState extends State<ActionTodo> {
       });
     } else {
       for (var device in devices) {
-        if (device['type'] != 'power') {
+        if (device['type'] != 'power' && device['type'] != 'server') {
           continue;
         }
         if (widget.todo != null && widget.todo['id'] == device['id']) {
@@ -85,39 +85,25 @@ class _ActionTodoState extends State<ActionTodo> {
               setState(() {});
             }
         );
-      case PropertyTypes.num:
-        var valueField = TextEditingController(text: value);
-        return Container(
-            width: 140,
-            child: TextField(
-                controller: valueField,
-                onChanged: (text) {
-                  value = text;
-                  widget.onChange({
-                    'id': selectDeviceId,
-                    'property': selectDeviceProperty,
-                    'value': value
-                  });
-                }
-            )
-        );
-      case PropertyTypes.time:
-        return FlatButton(
-            child: value == null ? Text('选择时间') : Text(value.toString()),
-            onPressed: () {
-              selectDate(context, (TimeOfDay time){
-                value = time.hour.toString() + ':' + time.minute.toString();
-                widget.onChange({
-                  'id': selectDeviceId,
-                  'property': selectDeviceProperty,
-                  'value': value
-                });
-                setState(() {});
+      case PropertyTypes.num: return Text('');
+      case PropertyTypes.time: return Text('');
+      case PropertyTypes.unknown:
+        return DropdownButton(
+            value: value,
+            items: [
+              DropdownMenuItem(value: true, child: Text('发送')),
+            ],
+            hint: Text('值'),
+            onChanged: (currentValue) {
+              value = currentValue;
+              widget.onChange({
+                'id': selectDeviceId,
+                'property': selectDeviceProperty,
+                'value': value
               });
+              setState(() {});
             }
         );
-      case PropertyTypes.unknown:
-        return Text('');
     }
     return Text('');
   }
@@ -127,7 +113,7 @@ class _ActionTodoState extends State<ActionTodo> {
       if (device['id'] == id) {
         selectDeviceId = id;
         currentDevice = device;
-        propertyItems = getDevicePropertiesMenuItemList(device);
+        propertyItems = getDeviceActionPropertiesMenuItemList(device);
         selectDeviceProperty = null;
         value = null;
         setState(() {});
@@ -174,7 +160,7 @@ class _ActionTodoState extends State<ActionTodo> {
           Text('的'),
           DropdownButton(
             value: selectDeviceProperty,
-            items: getDevicePropertiesMenuItemList(currentDevice),
+            items: getDeviceActionPropertiesMenuItemList(currentDevice),
             hint: Text('属性'),
             onChanged: _propertyChange
           ),
