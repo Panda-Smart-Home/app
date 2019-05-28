@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '熊猫智家',
+      title: '熊猫智居',
       theme: ThemeData(
         // This is the theme of your application.
         //

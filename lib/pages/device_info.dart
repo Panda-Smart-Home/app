@@ -41,6 +41,14 @@ class DeviceInfo extends StatelessWidget {
     return Text('no match');
   }
 
+  refresh(context) async {
+    var r = await device.refresh();
+    if (r) {
+      Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => DeviceInfo(device: device)));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +56,7 @@ class DeviceInfo extends StatelessWidget {
         title: Text(device.name),
       ),
       body: RefreshIndicator(
-        onRefresh: device.refresh,
+        onRefresh: (){refresh(context);},
         child: ListView(
           children: <Widget>[
             Card(
